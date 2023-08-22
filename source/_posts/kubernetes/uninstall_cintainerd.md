@@ -1,7 +1,9 @@
 ---
 title: uninstall containerd
 date: 2023-08-22 11:39:52
-tags: kubernetes
+categories:
+  - [kubernetes]
+tags: containerd
 ---
 要彻底清除 Kubernetes 集群节点上的 containerd，可以按照以下步骤进行：
 
