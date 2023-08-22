@@ -9,8 +9,7 @@ tags: containerd
 
 Step 1: 停止并移除所有运行的容器
 ```
-$ docker stop $(docker ps -aq)
-$ docker rm $(docker ps -aq)
+$ crictl ps -a | awk '{if(NR>1) print $1}' | xargs -I {} crictl rm {}
 ```
 这将停止并删除节点上所有正在运行的容器。
 
