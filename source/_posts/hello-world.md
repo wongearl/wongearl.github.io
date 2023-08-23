@@ -4,7 +4,12 @@ title: Hello World
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
 ## Quick Start
-
+dependencies:
+* node, npm
+* sudo npm install -g hexo-cli
+* sudo npm install hexo
+* npm install hexo-deployer-git --save
+* npm install hexo-generator-search --save
 ### Create a new post
 
 ``` bash
