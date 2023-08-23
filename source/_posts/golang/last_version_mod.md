@@ -1,6 +1,8 @@
 ---
 title: go mod使用最新提交
 date: 2023-08-18 18:49:14
+categories:
+  - [golang]
 tags: golang
 ---
 ​

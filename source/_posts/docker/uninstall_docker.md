@@ -1,6 +1,8 @@
 ---
 title: uninstall docker
 date: 2023-08-23 13:53:22
+categories:
+  - [docker]
 tags: docker
 ---
 要在CentOS 7上干净地卸载Docker，可以执行以下步骤：

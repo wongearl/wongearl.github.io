@@ -1,6 +1,8 @@
 ---
 title: metrics/cadvisor,kube-state-metrics,node-exporter
 date: 2023-08-18 18:30:53
+categories:
+  - [kubernetes]
 tags: kubernetes
 ---
 # kubelet的metrics/cadvisor
