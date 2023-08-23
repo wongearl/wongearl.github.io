@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>golang模板语法及预定义函数</title>
+      <link href="/2023/08/23/golang/go_template/"/>
+      <url>/2023/08/23/golang/go_template/</url>
+      
+        <content type="html"><![CDATA[<p>在Go语言中，使用模板可以通过<code>text/template</code>或者<code>html/template</code>包来实现。这两个包的主要区别是，<code>html/template</code>包会自动对输出进行转义，以防止跨站点脚本攻击。</p><p>下面是<code>text/template</code>和<code>html/template</code>包中常用的模板语法和示例：</p><ol><li><p>注释：</p><p>可以使用<code>&#123;&#123;/* 注释内容 */&#125;&#125;</code>语法添加注释。注释可以在模板执行时忽略。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;/* This is a comment */&#125;&#125;</span><br></pre></td></tr></table></figure></li><li><p>输出变量值：</p><p>使用<code>&#123;&#123;.&#125;&#125;</code>语法输出当前的上下文变量值。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;.&#125;&#125;  // 输出当前上下文的变量值</span><br></pre></td></tr></table></figure></li><li><p>条件语句：</p><p>使用<code>&#123;&#123;if .Condition&#125;&#125; ... &#123;&#123;else&#125;&#125; ... &#123;&#123;end&#125;&#125;</code>语法进行条件判断。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;if .Condition&#125;&#125;</span><br><span class="line">    True Block</span><br><span class="line">&#123;&#123;else&#125;&#125;</span><br><span class="line">    False Block</span><br><span class="line">&#123;&#123;end&#125;&#125;</span><br></pre></td></tr></table></figure></li><li><p>循环语句：</p><p>使用<code>&#123;&#123;range .Slice&#125;&#125; ... &#123;&#123;end&#125;&#125;</code>语法进行循环迭代。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;range .Slice&#125;&#125;</span><br><span class="line">    &#123;&#123;.&#125;&#125;  // .表示当前迭代的元素</span><br><span class="line">&#123;&#123;end&#125;&#125;</span><br></pre></td></tr></table></figure></li><li><p>定义和使用变量：</p><p>使用<code>&#123;&#123;with .Variable&#125;&#125; ... &#123;&#123;end&#125;&#125;</code>语法定义和使用临时变量。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;with .Variable&#125;&#125;</span><br><span class="line">    &#123;&#123;.&#125;&#125;  // 使用临时变量</span><br><span class="line">&#123;&#123;end&#125;&#125;</span><br></pre></td></tr></table></figure></li><li><p>函数调用：</p><p>使用<code>&#123;&#123;函数名 参数1 参数2 ...&#125;&#125;</code>语法调用内置或自定义函数。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;len .String&#125;&#125;  // 调用len函数返回字符串的长度</span><br></pre></td></tr></table></figure></li><li><p>嵌套模板：</p><p>使用<code>&#123;&#123;template "模板名称" .数据&#125;&#125;</code>语法在模板中嵌套另一个模板。</p><p>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;template &quot;header&quot; .PageTitle&#125;&#125;  // 嵌套名为&quot;header&quot;的模板，并传入.PageTitle参数</span><br></pre></td></tr></table></figure></li></ol><p>这些是常用的模板语法和示例，通过这些语法可以实现动态生成文本或者HTML代码的功能。具体使用方法可以参考Go语言文档中的模板包说明：<a href="https://golang.org/pkg/html/template/">https://golang.org/pkg/html/template/</a></p><p>在Go语言的模板中，可以通过在模板中调用预定义的全局函数来进行一些常用的操作。Go语言的模板引擎提供了一些内置函数，这些函数可以在模板中直接使用，而不需要额外的导入。</p><p>以下是一些常用的预定义全局函数：</p><ol><li><p><code>and</code>：接受任意数量的布尔值作为参数，并返回它们的与运算结果。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;and true true&#125;&#125;  // true</span><br><span class="line">&#123;&#123;and true false&#125;&#125; // false</span><br></pre></td></tr></table></figure></li><li><p><code>or</code>：接受任意数量的布尔值作为参数，并返回它们的或运算结果。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;or true true&#125;&#125;  // true</span><br><span class="line">&#123;&#123;or true false&#125;&#125; // true</span><br></pre></td></tr></table></figure></li><li><p><code>not</code>：接受布尔值作为参数，并返回它的否定值。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;not true&#125;&#125;  // false</span><br><span class="line">&#123;&#123;not false&#125;&#125; // true</span><br></pre></td></tr></table></figure></li><li><p><code>eq</code>：用于比较两个值是否相等。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;eq 10 10&#125;&#125;   // true</span><br><span class="line">&#123;&#123;eq &quot;abc&quot; &quot;def&quot;&#125;&#125; // false</span><br></pre></td></tr></table></figure></li><li><p><code>ne</code>：用于比较两个值是否不相等。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;ne 10 20&#125;&#125;   // true</span><br><span class="line">&#123;&#123;ne &quot;abc&quot; &quot;abc&quot;&#125;&#125; // false</span><br></pre></td></tr></table></figure></li><li><p><code>lt</code>：用于比较两个值是否左边小于右边。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;lt 10 20&#125;&#125;   // true</span><br><span class="line">&#123;&#123;lt &quot;abc&quot; &quot;def&quot;&#125;&#125; // true</span><br></pre></td></tr></table></figure></li><li><p><code>le</code>：用于比较两个值是否左边小于等于右边。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;le 20 20&#125;&#125;   // true</span><br><span class="line">&#123;&#123;le &quot;abc&quot; &quot;def&quot;&#125;&#125; // true</span><br></pre></td></tr></table></figure></li><li><p><code>gt</code>：用于比较两个值是否左边大于右边。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;gt 20 10&#125;&#125;   // true</span><br><span class="line">&#123;&#123;gt &quot;def&quot; &quot;abc&quot;&#125;&#125; // true</span><br></pre></td></tr></table></figure></li><li><p><code>ge</code>：用于比较两个值是否左边大于等于右边。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;ge 20 20&#125;&#125;   // true</span><br><span class="line">&#123;&#123;ge &quot;def&quot; &quot;abc&quot;&#125;&#125; // true</span><br></pre></td></tr></table></figure></li><li><p><code>len</code>：返回一个字符串或数组的长度。<br>示例：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;len &quot;hello&quot;&#125;&#125;  // 5</span><br><span class="line">&#123;&#123;len .slice&#125;&#125;   // 数组或切片的长度</span><br></pre></td></tr></table></figure></li></ol><p>以上就是一些常用的预定义全局函数的使用方法和示例。使用这些函数可以在模板中进行一些基本的逻辑操作和比较。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> golang </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>uninstall docker</title>
+      <link href="/2023/08/23/docker/uninstall_docker/"/>
+      <url>/2023/08/23/docker/uninstall_docker/</url>
+      
+        <content type="html"><![CDATA[<p>要在CentOS 7上干净地卸载Docker，可以执行以下步骤：</p><ol><li>停止Docker服务：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl stop docker</span><br></pre></td></tr></table></figure><ol start="2"><li>移除所有Docker容器和镜像。这将删除所有相关数据，包括容器、镜像以及存储卷等。请注意，这将不可逆转地删除数据。</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure><ol start="3"><li>卸载Docker软件包。可以使用以下命令之一，根据Docker的安装方式选择相应的命令：</li></ol><ul><li>如果Docker是通过<code>yum</code>进行安装的：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum remove docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure><ul><li>如果Docker是通过<code>dnf</code>进行安装的：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dnf remove docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure><ul><li>如果Docker是通过RPM包进行手动安装的，可以使用以下命令之一：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -e docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure><ol start="4"><li>删除相关配置文件：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo rm -rf /etc/docker</span><br><span class="line">sudo rm -rf /etc/systemd/system/docker.service.d</span><br></pre></td></tr></table></figure><ol start="5"><li>删除用户组和用户（可选）：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo groupdel docker</span><br><span class="line">sudo userdel docker</span><br></pre></td></tr></table></figure><p>完成以上步骤后，Docker将被完全卸载。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> docker </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>install nodejs</title>
+      <link href="/2023/08/22/nodejs/install_nodejs/"/>
+      <url>/2023/08/22/nodejs/install_nodejs/</url>
+      
+        <content type="html"><![CDATA[<p>要在Ubuntu上安装Node.js和NPM，你可以按照以下步骤进行操作：</p><ol><li><p>首先，打开终端。</p></li><li><p>更新系统软件包列表：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure></li><li><p>安装Node.js：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nodejs</span><br></pre></td></tr></table></figure><p>这将安装最新版本的Node.js。</p></li><li><p>安装npm：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install npm</span><br></pre></td></tr></table></figure><p>这将安装最新版本的npm。</p></li><li><p>检查Node.js和npm的安装版本：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nodejs --version</span><br><span class="line">npm --version</span><br></pre></td></tr></table></figure><p>在命令行上将显示Node.js和npm的版本号。</p></li></ol><p>如果你希望安装特定版本的Node.js和npm，可以使用nvm（Node Version Manager）工具。</p><ol><li><p>安装nvm：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash</span><br></pre></td></tr></table></figure><p>这将下载并运行nvm的安装脚本。</p></li><li><p>重新打开终端，或者在当前终端中运行以下命令以启用nvm：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure></li><li><p>安装所需版本的Node.js：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm install 18.17.1</span><br></pre></td></tr></table></figure><p>这将安装Node.js v18.17.1。</p></li><li><p>使用所需版本的Node.js：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvm use 18.17.1</span><br></pre></td></tr></table></figure><p>这将在当前终端会话中使用Node.js v18.17.1。</p></li><li><p>安装所需版本的npm：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g npm@9.6.7</span><br></pre></td></tr></table></figure><p>这将安装npm v9.6.7。</p></li><li><p>检查Node.js和npm的安装版本：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node --version</span><br><span class="line">npm --version</span><br></pre></td></tr></table></figure><p>在命令行上将显示Node.js v18.17.1和npm v9.6.7的版本号。</p></li></ol><p>请注意，使用nvm安装的Node.js版本仅在您的当前终端会话中有效。如果您希望在其他终端会话中使用相同的Node.js版本，您需要运行相应的<code>nvm use</code>命令。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> nodejs </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>uninstall containerd</title>
+      <link href="/2023/08/22/kubernetes/uninstall_cintainerd/"/>
+      <url>/2023/08/22/kubernetes/uninstall_cintainerd/</url>
+      
+        <content type="html"><![CDATA[<p>要彻底清除 Kubernetes 集群节点上的 containerd，可以按照以下步骤进行：</p><p>Step 1: 停止并移除所有运行的容器</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ crictl ps -a | awk &#x27;&#123;if(NR&gt;1) print $1&#125;&#x27; | xargs -I &#123;&#125; crictl rm &#123;&#125;</span><br></pre></td></tr></table></figure><p>这将停止并删除节点上所有正在运行的容器。</p><p>Step 2: 停止并禁用 containerd 服务</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl stop containerd</span><br><span class="line">$ systemctl disable containerd</span><br></pre></td></tr></table></figure><p>这将停止并禁用 containerd 服务。</p><p>Step 3: 卸载 containerd 软件包</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum remove containerd -y</span><br></pre></td></tr></table></figure><p>根据你的系统，可能需要使用适当的软件包管理器（如apt、dnf）来移除 containerd 软件包。</p><p>Step 4: 删除 containerd 配置目录</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /etc/containerd</span><br></pre></td></tr></table></figure><p>这将删除 containerd 的配置文件。</p><p>Step 5: 删除 containerd 数据目录</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm -rf /var/lib/containerd</span><br></pre></td></tr></table></figure><p>这将删除 containerd 的数据目录。</p><p>Step 6: 清理 containerd 相关的 iptables 规则</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ iptables -t nat -F</span><br><span class="line">$ iptables -t mangle -F</span><br></pre></td></tr></table></figure><p>这将清除与 containerd 相关的 iptables 规则。</p><p>Step 7: 检查是否有残留的 containerd 配置文件</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls /etc/systemd/system/containerd*</span><br></pre></td></tr></table></figure><p>如果输出中有任何文件，则手动删除它们：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm /etc/systemd/system/containerd*.service</span><br></pre></td></tr></table></figure><p>现在，你的 Kubernetes 集群节点上的 containerd 已经彻底卸载。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> containerd </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>go mod使用最新提交</title>
+      <link href="/2023/08/18/golang/last_version_mod/"/>
+      <url>/2023/08/18/golang/last_version_mod/</url>
+      
+        <content type="html"><![CDATA[<p>​<br>例如一个项目在其中依赖了    github.com&#x2F;linuxsuren&#x2F;go-fake-runtime v0.0.1</p><p>go.mod内容：</p><pre><code>github.com/linuxsuren/go-fake-runtime v0.0.1</code></pre><p>修改了github.com&#x2F;linuxsuren&#x2F;go-fake-runtime代码，存在一个最新的commit hash值为25fa814c6232e545f5bce03bd4db04fc37e10250</p><p>修改项目中的go.mod</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github.com/linuxsuren/go-fake-runtime 25fa814c6232e545f5bce03bd4db04fc37e10250</span><br></pre></td></tr></table></figure><p>然后执行go mod tidy,会看到go.mod中的依赖会更新为最新的提交</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">github.com/linuxsuren/go-fake-runtime v0.0.2-0.20230815071200-25fa814c6232</span><br></pre></td></tr></table></figure><p>至此项目依赖的github.com&#x2F;linuxsuren&#x2F;go-fake-runtime已由v0.0.1版本更为指定的commit。</p><p>​</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> golang </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> golang </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>metrics/cadvisor,kube-state-metrics,node-exporter</title>
+      <link href="/2023/08/18/kubernetes/monitor/"/>
+      <url>/2023/08/18/kubernetes/monitor/</url>
+      
+        <content type="html"><![CDATA[<h1 id="kubelet的metrics-cadvisor"><a href="#kubelet的metrics-cadvisor" class="headerlink" title="kubelet的metrics&#x2F;cadvisor"></a>kubelet的metrics&#x2F;cadvisor</h1><p>Kubelet是Kubernetes主节点的一个核心组件，负责管理节点上的容器，以及与主控平面进行通信。Kubelet通过提供不同的接口和嵌入式组件来收集和暴露节点和容器的监控指标。</p><ol><li><p>Kubelet监控指标：</p><ul><li>Kubelet启动的Pod数目</li><li>Kubelet已经完成的Pod数目</li><li>Kubelet当前正在运行的Pod数目</li><li>Kubelet拒绝启动的Pod数目</li><li>Kubelet处理错误的Pod数目</li><li>Kubelet未知状态的Pod数目</li><li>Kubelet容器运行时间</li><li>Kubelet容器CPU使用率</li><li>Kubelet容器内存使用率</li><li>Kubelet存储设备使用率</li><li>Kubelet网络上行流量</li><li>Kubelet网络下行流量</li><li>Kubelet容器磁盘使用量</li><li>Kubelet容器文件系统使用率</li><li>Kubelet容器日志记录量</li></ul></li><li><p>cAdvisor监控指标：</p><ul><li>容器的CPU使用率</li><li>容器的内存使用率</li><li>容器的磁盘使用率</li><li>容器的网络上行流量</li><li>容器的网络下行流量</li><li>容器的文件系统使用率</li><li>容器的日志记录量</li><li>容器的进程数</li><li>容器的打开文件数</li><li>容器的线程数</li><li>容器的磁盘I&#x2F;O使用率</li><li>容器的网络延迟</li><li>容器的网络吞吐量</li><li>容器的内存压缩率</li><li>容器的内存丢失</li><li>容器的CPU限制与请求</li></ul></li></ol><p>总体来说，Kubelet和cAdvisor提供了丰富的监控指标，可以用于监视节点和容器的资源使用情况、运行状态及性能状况。这些指标对于在Kubernetes集群中管理和优化容器化应用程序的性能和可靠性非常有帮助。</p><h1 id="kube-state-metrics"><a href="#kube-state-metrics" class="headerlink" title="kube-state-metrics"></a>kube-state-metrics</h1><p>kube-state-metrics（KSM）是一个用于将Kubernetes集群的状态信息转换为Prometheus指标的开源项目。它可以提供丰富的监控指标，用于监控Kubernetes集群中的各种资源和对象。以下是Kube-state-metrics提供的一些主要监控指标：</p><ol><li><p>节点指标（Node Metrics）：包括节点的CPU利用率、内存利用率、磁盘空间利用率等信息。</p></li><li><p>Pod指标（Pod Metrics）：包括Pod的CPU利用率、内存利用率、网络流量等信息。</p></li><li><p>命名空间指标（Namespace Metrics）：包括命名空间中的Pod、Replication Controller、Deployment、DaemonSet等资源的数量和状态信息。</p></li><li><p>服务指标（Service Metrics）：包括服务的连接数、请求流量、响应时间等信息。</p></li><li><p>部署指标（Deployment Metrics）：包括部署的副本数量、可用副本数量、滚动更新状态等信息。</p></li><li><p>容器指标（Container Metrics）：包括容器的CPU利用率、内存利用率、文件系统使用情况等信息。</p></li><li><p>StatefulSet指标（StatefulSet Metrics）：包括StatefulSet的副本数量、可用副本数量、当前状态等信息。</p></li><li><p>守护进程指标（DaemonSet Metrics）：包括DaemonSet的副本数量、可用副本数量、当前状态等信息。</p></li><li><p>任务指标（Job Metrics）：包括任务的运行状态、副本数量、成功和失败的次数等信息。</p></li></ol><p>这些指标可以提供关于Kubernetes集群和其中资源的性能、状态和健康状况的详细信息。使用这些指标，可以进行实时监控、性能优化、故障排除和容量规划，以确保集群的稳定性和可靠性。</p><h1 id="node-exporter"><a href="#node-exporter" class="headerlink" title="node-exporter"></a>node-exporter</h1><p>Node Exporter 是一种用于 Prometheus 的开源代理，用于暴露各种系统级监控指标。它可以在 Linux 系统上工作，并提供以下类型的监控指标：</p><ol><li><p>系统指标：包括 CPU 使用率、内存使用率、磁盘使用率、磁盘 I&#x2F;O 情况、网络流量、文件系统使用率等。这些指标可以帮助管理员了解系统的整体状态和资源利用情况。</p></li><li><p>进程指标：可以获取正在运行的进程数、进程CPU和内存使用情况、进程网络连接数等信息。通过这些指标，可以监控和识别系统中资源占用较多的进程，从而及时调整和优化。</p></li><li><p>网络指标：包括网络接口的带宽利用率、传输速率、丢包率和错误率等。这些指标可以帮助了解网络流量情况，监控网络性能和及时发现问题。</p></li><li><p>磁盘指标：包括磁盘使用率、磁盘读写速度、磁盘IO等。这些指标可以帮助监控磁盘的健康状况、数据读写速度和IO性能。</p></li><li><p>内存指标：包括内存使用量、内存交换情况、内存分页等。这些指标可以帮助了解内存的使用情况和性能。</p></li><li><p>CPU 指标：包括 CPU 使用率、CPU 温度、CPU 核心数等。这些指标可以帮助监控系统的负载情况和CPU性能。</p></li><li><p>运行时间指标：包括系统的运行时间以及系统启动后的负载状况。这些指标可以帮助了解系统的稳定性和运行时间。</p></li></ol><p>除了以上列举的指标，Node Exporter 还提供了其他许多监控指标，以及一些自定义指标的扩展方式。用户可以根据需要选择性地监控和收集这些指标，以满足对系统性能和资源利用的需求。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> kubernetes </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2023/08/04/hello-world/"/>
+      <url>/2023/08/04/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
