@@ -54,7 +54,7 @@ disable_top_img: false
 index_img: /img/20230822143445.jpg
 
 # If the banner of page not setting, it will show the top_img
-default_top_img:
+default_top_img: /img/thumbbig-1221433.jpg
 
 # The banner image of archive page
 archive_img:
