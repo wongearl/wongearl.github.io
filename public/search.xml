@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>kubevirt expose vm by svc</title>
+      <link href="/2023/09/01/kubernetes/kubevirt-vm-expose/"/>
+      <url>/2023/09/01/kubernetes/kubevirt-vm-expose/</url>
+      
+        <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>存在kubevit存在的三个虚机：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ubuntu-4tlg7   7d22h   Running   True</span><br><span class="line">ubuntu-7kgrk   7d22h   Running   True</span><br><span class="line">ubuntu-94kg2   7d22h   Running   True</span><br></pre></td></tr></table></figure><p>网络没有做透传，pod也不是underlay网络想要通过NodePort方式暴露虚机22端口进行远程登录。</p><h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><ol><li>修改vm资源实例，在spec.template.metada下添加labels设置,已存在的则不用添加。例如如下：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spec:</span><br><span class="line">  runStrategy: RerunOnFailure</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      creationTimestamp: null</span><br><span class="line">      labels:</span><br><span class="line">        kubevirtvm01: kubevirtvm01</span><br></pre></td></tr></table></figure></li><li>重启虚机</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtctl -n wyl-vm restart ubuntu-4tlg7</span><br></pre></td></tr></table></figure><ol start="3"><li><p>暴露端口</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtctl expose vm ubuntu-4tlg7 --name ubuntu-4tlg7-ssh --port 22 --target-port 22 --type NodePort -n wyl-vm</span><br></pre></td></tr></table></figure></li><li><p>查看svc</p></li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NAME               TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE</span><br><span class="line">ubuntu-4tlg7-ssh   NodePort   10.96.23.17   &lt;none&gt;        22:32581/TCP   14m</span><br></pre></td></tr></table></figure><p>使用节点ip地址加svc nodeport即可访问虚机。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> kubevirt </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>grafana how to create alert rule</title>
       <link href="/2023/08/31/kubernetes/grafana-create-alert-rule/"/>
       <url>/2023/08/31/kubernetes/grafana-create-alert-rule/</url>
