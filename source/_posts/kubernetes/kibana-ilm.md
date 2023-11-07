@@ -19,7 +19,7 @@ kibana version: v7.9.3
 
 首先需要先创建索引生命周期策略，在索引模板中可以引用创建好的索引生命周期策略。
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/ilm01.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/ilm01.png)
 
 - 策略名称： 引用该策略是需要用，例如设置为：filebeat-index-ilm
   
@@ -62,14 +62,14 @@ kibana version: v7.9.3
 
 #### 2.1.3 删除阶段
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/ilm03.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/ilm03.png)
 
 - 删除倒计时： 设置日志多久之后删除。
   
 
 ### 2.2 创建索引模板
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template01.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template01.png)
 
 - 名称：索引模板名
   
@@ -82,12 +82,12 @@ kibana version: v7.9.3
 - _meta 字段：_meta 字段是一个 JSON 对象，用于存储与索引模板相关的元数据。你可以在 _meta 字段中添加自定义的键值对，例如索引模板的创建时间、作者等信息。这些元数据可以在使用 Elasticsearch API 管理索引模板时进行访问和操作。
   
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template02.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template02.png)
 
 - 选择组件： 引用已经创建好的组件模板
   
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template03.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template03.png)
 
 - 索引设置: 图中设置了生命周期相关内容，lifecycle：指的就是索引的生命周期，这里就是我们之前创建的索引生命周期；rollover_alias：滚动别名，当我们配置了索引大小，超过这个大小后，会以这个名称命名。
   
@@ -120,7 +120,7 @@ kibana version: v7.9.3
 - 需要优化索引性能的场景：可以通过配置索引分片数和索引副本数来优化索引的性能，提高查询和聚合的速度。
 - 需要优化存储效率的场景：可以通过配置存储设置和分析器来优化索引的存储效率，减少存储空间的使用.。
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template05.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template05.png)
 
 - 设置索引别名
   
@@ -137,7 +137,7 @@ kibana version: v7.9.3
   在上述请求中，"add" 动作告诉 Elasticsearch 将别名 "test" 添加到索引 "test-20190120" 上。之后，你可以使用别名 "test" 来查询该索引的内容。
   
 
-![](https://ghproxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template06.png)
+![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/kibana/index-template06.png)
 
 完成模板创建。
 
