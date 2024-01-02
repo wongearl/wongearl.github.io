@@ -105,5 +105,5 @@ theme: butterfly
 deploy:
   type: 'git'
   repo:
-    github: https://gh-proxy.com/github.com/wongearl/wongearl.github.io
+    github: https://mirror.ghproxy.com/github.com/wongearl/wongearl.github.io
   branch: master

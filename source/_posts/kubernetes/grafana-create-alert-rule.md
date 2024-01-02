@@ -42,13 +42,13 @@ Alerts类型是一个过滤告警的函数：
 - `Alerts.Firing` returns a list of firing alerts.
 - `Alerts.Resolved` returns a list of resolved alerts.
 
-![template](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-message-template.png)
+![template](https://mirror.ghproxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-message-template.png)
 
 define用来设置模板名，是可选的，如果不设置默认采用Template name,最佳实践时与Template name 保持一致。
 
 ## 2.2 创建 contact point
 
-![point](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-contact-point.png)
+![point](https://mirror.ghproxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-contact-point.png)
 
 创建name和不同类型的contact，包括邮箱，钉钉等，同一个name下可以添加多个contact。详细说一下邮箱类型的tact：
 
@@ -69,7 +69,7 @@ define用来设置模板名，是可选的，如果不设置默认采用Template
 
 通知策略通过label配置告警，通知指定 contact point设置接收告警通知的对象。
 
-![np](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/grafana/n-p.png)
+![np](https://mirror.ghproxy.com/https://github.com/wongearl/mypic/blob/main/grafana/n-p.png)
 
 - matching labels： 添加指定的匹配label用于匹配alerts。
   
@@ -125,7 +125,7 @@ rule有三种类型：
 
 ## 4.2 Grafana managed alerting rule
 
-![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-rule-1.png)
+![](https://mirror.ghproxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-rule-1.png)
 
 - rule name: 告警规则名。
   
@@ -151,7 +151,7 @@ rule有三种类型：
     
     1. instant: 勾选时查询只在指定的单个时间点上执行，这对于需要聚合或对单个时间点数据感兴趣的场景非常有用。面板的时间选择器将被禁用，因为查询仅在一个固定时间点上执行。不勾选时：查询将返回一个时间范围内的数据，这对于需要在一段时间内进行数据分析或比较的情况非常有用。面板的时间选择器将启用，可以选择查询的时间范围。
 
-    ![](https://gh-proxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-rule-2.png)
+    ![](https://mirror.ghproxy.com/https://github.com/wongearl/mypic/blob/main/grafana/create-rule-2.png)
       
     
     创建Expression（表达式）：
