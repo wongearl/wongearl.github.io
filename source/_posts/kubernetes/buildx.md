@@ -68,7 +68,7 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
 
 [registry."image.xxxxxx.com"]
  http = true
- insecure = true
+ insecure = true #如果是http的harbor仓库，如要把此行注释掉，否则会认证仓库失败
 ```
 # 4. docker build命令详解
 一定要注意docker build工作的路径，否则COPY命令会报：
