@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>计算机网络（1-3层）详解 | Earl Wong</title><meta name="author" content="Earl Wong"><meta name="copyright" content="Earl Wong"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="计算机被发明出来使用很长时间，都是作为一个独立的个体来使用的，直到后来美国国防部的高级研究计划局（ARPA）计划建设一个军用网，叫做“阿帕网”（ARPAnet），阿帕网于1969年正式启用，当时仅连接了4台计算机，供科学家们进行计算机联网实验使用，直到那时候才开始出现计算机网络的概念。 今天我们就来聊聊计算机组网的那点事儿 第一层（物理层） 从计算机组网的角度来说，将两台计算机通过网线相连，就是一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络（1-3层）详解">
+<meta property="og:url" content="https://wongearl.github.io/2023/11/03/kubernetes/internet-1-3/index.html">
+<meta property="og:site_name" content="Earl Wong">
+<meta property="og:description" content="计算机被发明出来使用很长时间，都是作为一个独立的个体来使用的，直到后来美国国防部的高级研究计划局（ARPA）计划建设一个军用网，叫做“阿帕网”（ARPAnet），阿帕网于1969年正式启用，当时仅连接了4台计算机，供科学家们进行计算机联网实验使用，直到那时候才开始出现计算机网络的概念。 今天我们就来聊聊计算机组网的那点事儿 第一层（物理层） 从计算机组网的角度来说，将两台计算机通过网线相连，就是一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wongearl.github.io/img/20230818103122.jpg">
+<meta property="article:published_time" content="2023-11-03T02:17:24.000Z">
+<meta property="article:modified_time" content="2024-01-09T03:34:41.595Z">
+<meta property="article:author" content="Earl Wong">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wongearl.github.io/img/20230818103122.jpg"><link rel="shortcut icon" href="/img/20230823160932.png"><link rel="canonical" href="https://wongearl.github.io/2023/11/03/kubernetes/internet-1-3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络（1-3层）详解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-01-09 11:34:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/20230818103122.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/thumbbig-1221433.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Earl Wong"><span class="site-name">Earl Wong</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络（1-3层）详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-03T02:17:24.000Z" title="发表于 2023-11-03 10:17:24">2023-11-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-09T03:34:41.595Z" title="更新于 2024-01-09 11:34:41">2024-01-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/kubernetes/">kubernetes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络（1-3层）详解"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>计算机被发明出来使用很长时间，都是作为一个独立的个体来使用的，直到后来美国国防部的高级研究计划局（ARPA）计划建设一个军用网，叫做“阿帕网”（ARPAnet），阿帕网于1969年正式启用，当时仅连接了4台计算机，供科学家们进行计算机联网实验使用，直到那时候才开始出现计算机网络的概念。</p>
+<p>今天我们就来聊聊计算机组网的那点事儿</p>
+<p>第一层（物理层）</p>
+<p>从计算机组网的角度来说，将两台计算机通过网线相连，就是一个简单的网络结构，如图所示：</p>
+<p><img src="/image-120.png" alt="Alt text"><br>但是在实际网络环境中，接入网络的计算机不可能只有两台，那么在有很多台计算机的情况下，我们该如何连接呢？</p>
+<p>为此我们发明了一个中间设备，将计算机的网线都插到这个设备上，由这个设备做转发，这样彼此之间就可以通信了。</p>
+<p>这个中间设备的名子就叫集线器（俗称HUB）,它的功能非常简单，仅仅是将任意一个接口接受到的电信号转发到所有出口（广播），不做任何处理，因此将他定位为物理层设备。</p>
+<p>但是这种转发方式会引起一个新的问题，由于转发到了所有出口，那接在集线器下的其他设备都能接受到数据，那么怎么判断数据是不是发给自己的。</p>
+<p><img src="/image-121.png" alt="Alt text"><br>这儿就引入一个新的名词，MAC地址，正常情况下MAC地址是全局唯一的标识，全世界独一无二，给每一个设备都配一个MAC地址，这样，A 在发送数据包给 B 时，只要在头部拼接一个源目MAC地址就可以解决此问题了。B 在收到数据包后，根据头部的目标 MAC 地址信息，判断这个数据包的确是发给自己的，于是便收下。其他的计算机收到数据包后，根据头部的目标 MAC 地址信息，判断这个数据包并不是发给自己的，于是便丢弃。虽然集线器使整个网络布局简单明了，但会出现一个新的问题，原来我只要发给电脑B的消息，现在却要发给连接到集线器中的所有电脑，这样既不安全，又浪费宝贵带宽资源。</p>
+<p>第二层（数据链路层）</p>
+<p>在第一层中，我们最后虽然解决了多台计算机的组网需求，但最后却留下了问题，即集线器的使用不仅有安全隐患，而且浪费有限的带宽资源。那第二层的主要目标就是解决安全隐患以及带宽浪费的问题，把这个集线器弄得更智能一些，想要将数据发送到那一台设备，就只发给目标 MAC 地址指向的那台电脑，就好了。<br><img src="/image-122.png" alt="Alt text"></p>
+<p>所以一个全新的设备出现了，这东西就叫做交换机。它能够实现你将数据发送到指定的设备而不会转发到所有出口（广播）的情况，因此将他定位为数据链路层设备。每一台交换机内部维护一张 MAC 地址表，记录着每一个设备的 MAC 地址，连接在其哪一个端口上。</p>
+<table>
+<thead>
+<tr>
+<th align="left">MAC 地址</th>
+<th align="left">端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">bb-bb-bb-bb-bb-bb</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">cc-cc-cc-cc-cc-cc</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">aa-aa-aa-aa-aa-aa</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">dd-dd-dd-dd-dd-dd</td>
+<td align="left">5</td>
+</tr>
+</tbody></table>
+<p>这种情况下，假如你仍然要发给 B 一个数据包，构造了如下的数据结构从网口出去。<br><img src="/image-123.png" alt="Alt text"></p>
+<p>到达交换机时，交换机内部通过自己维护的 MAC 地址表，发现目标机器 B 的 MAC 地址 bb-bb-bb-bb-bb-bb 映射到了端口 1 上，于是把数据从 1 号端口发给了 B，一次数据转发完成。而以这样传输方式组成的小范围的网络，叫做以太网。当然刚开始的时候，MAC 地址表是空的，那MAC地址表是如何建立起来的呢？假如刚开始交换机 MAC 地址表是空的，你给 B 发送了如下数据：</p>
+<p><img src="/image-124.png" alt="Alt text"><br>由于这个包从端口 4 进入的交换机，所以此时交换机就可以在 MAC地址表记录第一条数据：</p>
+<table>
+<thead>
+<tr>
+<th align="left">MAC 地址</th>
+<th align="left">端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">aa-aa-aa-aa-aa-aa-aa</td>
+<td align="left">4</td>
+</tr>
+</tbody></table>
+<p>交换机看目标 MAC 地址（bb-bb-bb-bb-bb-bb）在地址表中并没有映射关系，于是将此包发给了所有端口，即广播发送。之后，只有机器 B 收到了确实是发给自己的包，于是做出了响应，响应数据从端口 1 进入交换机，于是交换机此时在地址表中更新了第二条数据：</p>
+<table>
+<thead>
+<tr>
+<th align="left">MAC 地址</th>
+<th align="left">端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">aa-aa-aa-aa-aa-aa-aa</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">bb-bb-bb-bb-bb-bb</td>
+<td align="left">1</td>
+</tr>
+</tbody></table>
+<p>经过该网络中的机器不断通信，交换机最终将 MAC 地址表建立完毕~</p>
+<p>最直观的展示过程：<br><img src="/image-125.png" alt="Alt text"></p>
+<p>通过此种方法我们就成功的建立了一个相对安全，也比较智能的局域互联网络，通过此网络我们可以在几台计算机之间分享数据，但是很快新的问题又出现了。随着机器数量越多，一台交换机的端口不够了，我们能想到的最简单的办法，就是将多个交换机连接起来，解决这 个问题，事实上还真的可以，但是这样真的没有问题吗？<br><img src="/image-126.png" alt="Alt text"></p>
+<p>需要注意的是，上面那根红色的线，最终在 MAC 地址表中可不是一条记录，而是要把 EFGH 这四台机器与该端口（端口6）的映射全部记录在表中。最终，两个交换机将分别记录 A ~ H 所有机器的映射记录。</p>
+<p>左边的交换机</p>
+<table>
+<thead>
+<tr>
+<th align="left">MAC 地址</th>
+<th align="left">端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">bb-bb-bb-bb-bb-bb</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">cc-cc-cc-cc-cc-cc</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">aa-aa-aa-aa-aa-aa</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">dd-dd-dd-dd-dd-dd</td>
+<td align="left">5</td>
+</tr>
+<tr>
+<td align="left">ee-ee-ee-ee-ee-ee</td>
+<td align="left">6</td>
+</tr>
+<tr>
+<td align="left">ff-ff-ff-ff-ff-ff</td>
+<td align="left">6</td>
+</tr>
+<tr>
+<td align="left">gg-gg-gg-gg-gg-gg</td>
+<td align="left">6</td>
+</tr>
+<tr>
+<td align="left">hh-hh-hh-hh-hh-hh</td>
+<td align="left">6</td>
+</tr>
+</tbody></table>
+<p>右边的交换机</p>
+<table>
+<thead>
+<tr>
+<th align="left">MAC 地址</th>
+<th align="left">端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">bb-bb-bb-bb-bb-bb</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">cc-cc-cc-cc-cc-cc</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">aa-aa-aa-aa-aa-aa</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">dd-dd-dd-dd-dd-dd</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">ee-ee-ee-ee-ee-ee</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">ff-ff-ff-ff-ff-ff</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">gg-gg-gg-gg-gg-gg</td>
+<td align="left">4</td>
+</tr>
+<tr>
+<td align="left">hh-hh-hh-hh-hh-hh</td>
+<td align="left">6</td>
+</tr>
+</tbody></table>
+<p>这种设计方式，在计算机数量不多的情况下是可以正常使用的，但是当接入的计算机数量太多，交换机就无法维护如此巨大的表了。</p>
+<p>第三层（网络层）</p>
+<p>在第二层中问题的根本在于，连出去的那根红色的网线，后面不知道有多少个设备不断地连接进来，从而使得地址表越来越大。<br><img src="/image-127.png" alt="Alt text"></p>
+<p>解决的办法就是，再接入一个新的设备，这个设备有自己独立的 MAC 地址同时还能把所有流经的数据包做一次转发，这个设备就是路由器，并将它定在了网络层。现在交换机的 MAC 地址表中，只需要多出一条 MAC 地址 ABAB 与其端口的映射关系，就可以成功把数据包转交给路由器了，而后由路由器转发到其他设备。但是这儿由出现了一个新的问题，那就是如何做到将发送的数据先发送给路由器呢？</p>
+<p>为了解决这个问题，我们又发明了一个新的工具，IP 地址。现在每一台电脑，同时有自己的 MAC 地址，又有自己的 IP 地址，只不过 IP 地址是软件层面上的，可以随时修改，MAC 地址一般是无法修改的。这样一个可以随时修改的 IP 地址，就可以根据你规划的网络拓扑结构来调整了。<br><img src="/image-128.png" alt="Alt text"></p>
+<p>如上图所示，假如我想要发送数据包给 ABCD 其中一台设备，不论哪一台，我都可以这样描述，”将 IP 地址为 192.168.0 开头的全部发送给到路由器，之后再怎么转发，交给它！那交给路由器之后，路由器又是怎么把数据包准确转发给指定设备的呢？</p>
+<p>我们先给上面的组网方式中的每一台设备，加上自己的 IP 地址</p>
+<p><img src="/image-129.png" alt="Alt text"><br>现在两个设备之间传输，除了加上数据链路层的头部之外，还要再增加一个网络层的头部。假如 A 给 B 发送数据，由于它们直接连着交换机，所以 A 直接发出数据包即可，网络层的功能没有体现出作用。但假如 A 给 C 发送数据，A 就需要先转交给路由器，然后再由路由器转交给 C。由于最底层的传输仍然需要依赖以太网，所以数据包是分成两段的。</p>
+<p>A-路由器这段的包如下：<br><img src="/image-130.png" alt="Alt text"></p>
+<p>路由器-C这段的包如下：</p>
+<p><img src="/image-131.png" alt="Alt text"><br>A 给 C 发数据包，首先判断源 IP与目的IP是否处于一个子网，如果处于同一个子网，直接将包通过交换机发出，如果源 IP 与目的 IP 不处于一个子网，就交给路由器去处理，这里又有一个新的问题，那就是A 如何知道，哪个设备是路由器呢？答案就是你提前需要在 A 上设置路由器的地址，而这个地址我们叫他默认网关。现在数据已经可以成功发到路由器这里了，最后一个问题就是，路由器如何知道，收到的这个数据包，该从自己的哪个端口出去，才能直接（或间接）地最终到达目的地 C 呢。</p>
+<p>这儿就又出现了一张新的表，叫做路由表。至于这个路由表是怎么出来的，可以通过手动的方式指定，也可以通过路由算法自动生成，本文不展开讲述，因为这又是一个庞大的体系。不同于 MAC 地址表的是，路由表并不是一对一这种明确关系，我们下面看一个路由表的结构。</p>
+<table>
+<thead>
+<tr>
+<th align="left">目的地址</th>
+<th align="left">子网掩码</th>
+<th align="left">下一跳</th>
+<th align="left">端口</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">192.168.0.0</td>
+<td align="left">255.255.255.0</td>
+<td align="left"></td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">192.168.0.254</td>
+<td align="left">255.255.255.255</td>
+<td align="left"></td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">192.168.1.0</td>
+<td align="left">255.255.255.0</td>
+<td align="left"></td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">192.168.1.254</td>
+<td align="left">255.255.255.255</td>
+<td align="left"></td>
+<td align="left">1</td>
+</tr>
+</tbody></table>
+<p>上表表示，<a target="_blank" rel="noopener" href="http://192.168.0.xxx/">http://192.168.0.xxx</a> 这个子网下的，都转发到 0 号端口，<a target="_blank" rel="noopener" href="http://192.168.1.xxx/">http://192.168.1.xxx</a> 这个子网下的，都转发到 1 号端口。但是这儿又有一个新的麻烦出现了。</p>
+<p>现在我们知道要发送数据的目标主机IP地址，但发送数据包的数据链路层需要知道 MAC 地址，可是我只知道 IP 地址该怎么办呢？又出现一个新的名词arp，在网络层，我需要把 IP 地址对应的 MAC 地址找到， 这种方式就是 arp 协议，同时电脑每一台电脑里面也会有一张 arp 缓存表，表中记录着 IP 与 MAC 地址的对应关系。</p>
+<table>
+<thead>
+<tr>
+<th align="left">IP 地址</th>
+<th align="left">MAC 地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">192.168.0.2</td>
+<td align="left">BBBB</td>
+</tr>
+</tbody></table>
+<p>刚开始的时候这个表是空的，电脑 A 为了知道电脑 B的 MAC 地址，将会广播一条 arp 请求，B 收到请求后，带上自己的 MAC 地址给 A 一个响应。此时 A 便更新了自己的 arp 表。这样通过大家不断广播 arp 请求，最终所有电脑里面都将 arp 缓存表更新完整。</p>
+<p>至此一个数据成功的从一个网段转发到另一个网段，复杂的网络是由一个个小型的网络组合而成的，将N个局域网连接到一起可不就是互联网嘛。</p>
+<p>原文地址:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/433393781">https://zhuanlan.zhihu.com/p/433393781</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://wongearl.github.io">Earl Wong</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://wongearl.github.io/2023/11/03/kubernetes/internet-1-3/">https://wongearl.github.io/2023/11/03/kubernetes/internet-1-3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://wongearl.github.io" target="_blank">Earl Wong</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></div><div class="post_share"><div class="social-share" data-image="/img/20230818103122.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/11/03/kubernetes/snat-dnat/" title="SNAT和DNAT"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SNAT和DNAT</div></div></a></div><div class="next-post pull-right"><a href="/2023/11/03/kubernetes/vxlan/" title="VXLAN 基础教程：VXLAN 协议原理介绍"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">VXLAN 基础教程：VXLAN 协议原理介绍</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/11/03/kubernetes/snat-dnat/" title="SNAT和DNAT"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-03</div><div class="title">SNAT和DNAT</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/20230818103122.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Earl Wong</div><div class="author-info__description">Share everything</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wongearl"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wongearl" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:earlwong368@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/09/kubernetes/kube-ovn-underlay/" title="kubeovn underlay 相关概念">kubeovn underlay 相关概念</a><time datetime="2024-01-09T03:34:41.595Z" title="发表于 2024-01-09 11:34:41">2024-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/09/hello-world/" title="Hello World">Hello World</a><time datetime="2024-01-09T03:34:41.327Z" title="发表于 2024-01-09 11:34:41">2024-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/02/kubernetes/buildx/" title="使用buildx构建多架构镜像">使用buildx构建多架构镜像</a><time datetime="2024-01-02T07:52:06.000Z" title="发表于 2024-01-02 15:52:06">2024-01-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/17/gitops/argo-cd-guide/" title="argo-cd-guide">argo-cd-guide</a><time datetime="2023-11-17T01:39:03.000Z" title="发表于 2023-11-17 09:39:03">2023-11-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/17/gitops/argo-workflow-guide/" title="argo-workflows-guide">argo-workflows-guide</a><time datetime="2023-11-17T01:33:50.000Z" title="发表于 2023-11-17 09:33:50">2023-11-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Earl Wong</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>

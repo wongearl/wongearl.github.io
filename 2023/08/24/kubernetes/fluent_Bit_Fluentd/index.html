@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Fluent Bit和Fluentd之间的联系及区别 | Earl Wong</title><meta name="author" content="Earl Wong"><meta name="copyright" content="Earl Wong"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Fluent Bit和Fluentd是两个流行的开源日志收集工具，并且它们有一些共同的设计目标，但也有一些区别。  Fluent Bit（轻量型的日志收集器）Fluent Bit是一个轻量级和高性能的日志收集器，由Treasure Data公司开发。它专注于收集、过滤和转发日志，具有低内存占用和低性能开销的特点。Fluent Bit设计用于嵌入式系统和容器环境中，可以作为提供日志数据的终端。  使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fluent Bit和Fluentd之间的联系及区别">
+<meta property="og:url" content="https://wongearl.github.io/2023/08/24/kubernetes/fluent_Bit_Fluentd/index.html">
+<meta property="og:site_name" content="Earl Wong">
+<meta property="og:description" content="Fluent Bit和Fluentd是两个流行的开源日志收集工具，并且它们有一些共同的设计目标，但也有一些区别。  Fluent Bit（轻量型的日志收集器）Fluent Bit是一个轻量级和高性能的日志收集器，由Treasure Data公司开发。它专注于收集、过滤和转发日志，具有低内存占用和低性能开销的特点。Fluent Bit设计用于嵌入式系统和容器环境中，可以作为提供日志数据的终端。  使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wongearl.github.io/img/20230818103122.jpg">
+<meta property="article:published_time" content="2023-08-24T08:13:26.000Z">
+<meta property="article:modified_time" content="2024-01-09T03:34:41.327Z">
+<meta property="article:author" content="Earl Wong">
+<meta property="article:tag" content="logging">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wongearl.github.io/img/20230818103122.jpg"><link rel="shortcut icon" href="/img/20230823160932.png"><link rel="canonical" href="https://wongearl.github.io/2023/08/24/kubernetes/fluent_Bit_Fluentd/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Fluent Bit和Fluentd之间的联系及区别',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-01-09 11:34:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/20230818103122.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/thumbbig-1221433.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Earl Wong"><span class="site-name">Earl Wong</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Fluent Bit和Fluentd之间的联系及区别</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-24T08:13:26.000Z" title="发表于 2023-08-24 16:13:26">2023-08-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-01-09T03:34:41.327Z" title="更新于 2024-01-09 11:34:41">2024-01-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/kubernetes/">kubernetes</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Fluent Bit和Fluentd之间的联系及区别"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Fluent Bit和Fluentd是两个流行的开源日志收集工具，并且它们有一些共同的设计目标，但也有一些区别。</p>
+<ol>
+<li>Fluent Bit（轻量型的日志收集器）<br>Fluent Bit是一个轻量级和高性能的日志收集器，由Treasure Data公司开发。它专注于收集、过滤和转发日志，具有低内存占用和低性能开销的特点。Fluent Bit设计用于嵌入式系统和容器环境中，可以作为提供日志数据的终端。</li>
+</ol>
+<p>使用场景：</p>
+<ul>
+<li>IoT设备：Fluent Bit作为嵌入式日志收集器，适用于在资源有限的物联网设备上收集日志数据。</li>
+<li>容器环境：Fluent Bit能够与Docker等容器平台无缝集成，并快速收集、聚合和转发容器日志。</li>
+<li>边缘计算：部署在边缘节点的Fluent Bit能够实时收集和传输边缘设备上的日志数据。</li>
+</ul>
+<p>使用方式：</p>
+<ul>
+<li>配置管理：通过配置文件定义输入源、过滤规则和输出目标。</li>
+<li>轻量级部署：由于其低资源消耗，Fluent Bit适合在嵌入式设备和容器中部署。</li>
+<li>插件支持：提供多种插件，如输入、过滤和输出插件，可根据需求扩展功能。</li>
+</ul>
+<ol start="2">
+<li>Fluentd（全能型的日志收集引擎）<br>Fluentd是一个功能强大的开源日志收集和流数据处理引擎，也是由Treasure Data公司开发。它设计用于处理大规模和复杂的数据流，提供了更丰富的功能和灵活性。</li>
+</ol>
+<p>使用场景：</p>
+<ul>
+<li>日志聚合：收集来自多个源（文件、系统日志、应用程序日志等）的日志数据，并将其聚合到一处进行分析和存储。</li>
+<li>实时大数据处理：通过Fluentd的插件生态系统，可以将数据发送到Hadoop、Elasticsearch等数据处理和存储平台。</li>
+<li>日志路由和转换：Fluentd支持对日志数据进行过滤、标准化和转换，以便在不同目标之间进行路由。</li>
+</ul>
+<p>使用方式：</p>
+<ul>
+<li>插件生态系统：拥有丰富的插件生态系统，可用于收集、处理和转发各种类型的数据。</li>
+<li>高度可配置：通过配置文件进行配置，可以定义输入源、过滤器和输出目标，并自定义数据流的处理逻辑。</li>
+<li>部署灵活：Fluentd可以以独立进程或守护进程的形式部署，也可以在容器中运行。</li>
+</ul>
+<p>联系与区别：</p>
+<ul>
+<li>它们都是由Treasure Data公司开发的开源日志收集工具，具有类似的设计目标。</li>
+<li>Fluent Bit更注重轻量级和高性能，适用于嵌入式和容器环境中的日志收集，而Fluentd则更适合处理大规模和复杂的数据流。</li>
+<li>Fluent Bit的功能相对较少，专注于基本的日志收集、过滤和转发，而Fluentd具有更丰富的功能和插件生态系统。</li>
+<li>Fluent Bit和Fluentd可以在同一系统中共存，实现多层次的日志收集和处理。</li>
+</ul>
+<p>总结：<br>Fluent Bit和Fluentd都是用于日志收集的工具，但根据应用场景和需求的不同，可以选择适合的工具。如果你需要一个轻量级的解决方案，以及在嵌入式设备和容器中高效收集和转发日志，可以选择Fluent Bit。而如果你面对复杂的数据流和需要更多功能和灵活性的场景，可以选择Fluentd。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://wongearl.github.io">Earl Wong</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://wongearl.github.io/2023/08/24/kubernetes/fluent_Bit_Fluentd/">https://wongearl.github.io/2023/08/24/kubernetes/fluent_Bit_Fluentd/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://wongearl.github.io" target="_blank">Earl Wong</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/logging/">logging</a></div><div class="post_share"><div class="social-share" data-image="/img/20230818103122.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/24/kubernetes/efk/" title="EFK"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">EFK</div></div></a></div><div class="next-post pull-right"><a href="/2023/08/23/golang/go_template/" title="golang模板语法及预定义函数"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">golang模板语法及预定义函数</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/08/24/kubernetes/efk/" title="EFK"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-24</div><div class="title">EFK</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/20230818103122.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Earl Wong</div><div class="author-info__description">Share everything</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">19</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wongearl"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wongearl" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:earlwong368@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/09/kubernetes/kube-ovn-underlay/" title="kubeovn underlay 相关概念">kubeovn underlay 相关概念</a><time datetime="2024-01-09T03:34:41.595Z" title="发表于 2024-01-09 11:34:41">2024-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/09/hello-world/" title="Hello World">Hello World</a><time datetime="2024-01-09T03:34:41.327Z" title="发表于 2024-01-09 11:34:41">2024-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/01/02/kubernetes/buildx/" title="使用buildx构建多架构镜像">使用buildx构建多架构镜像</a><time datetime="2024-01-02T07:52:06.000Z" title="发表于 2024-01-02 15:52:06">2024-01-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/17/gitops/argo-cd-guide/" title="argo-cd-guide">argo-cd-guide</a><time datetime="2023-11-17T01:39:03.000Z" title="发表于 2023-11-17 09:39:03">2023-11-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/11/17/gitops/argo-workflow-guide/" title="argo-workflows-guide">argo-workflows-guide</a><time datetime="2023-11-17T01:33:50.000Z" title="发表于 2023-11-17 09:33:50">2023-11-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By Earl Wong</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
